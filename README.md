@@ -70,7 +70,7 @@ Run with: python filename_location.py
 
 ___________________________________
 
-<b>Considerations</b>
+<b>Considerations:</b>
 
 You can show hidden objects with Gtk-Tools and manipulate them from there. The most secure way to handle hidden files is to open them via text editor. In the case of folders I recommend using command line. In any case, be cautious when handling hidden files - since mismanagement might cause some stability issues to your operation system. More about terminal commands: http://www.techtimejourney.net/essential-terminal-tricks-you-should-know/ 
 
