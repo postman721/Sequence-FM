@@ -1,5 +1,5 @@
 # Sequence-FM
-This repository hosts Sequence FM (Python+QT5) file manager and related add-ons
+This repository hosts Sequence FM (Python+QT5) file manager and its add-ons
 
 ![screenshot](https://user-images.githubusercontent.com/29865797/28461483-7baa3056-6e1f-11e7-8063-b3dc414a31fb.jpg)
 
