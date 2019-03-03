@@ -1,3 +1,7 @@
+###################################################
+#Gtk-Tools is depricated since Sequnce FM 5.0 Beta
+####################################################
+
 #!/usr/bin/env python
 #Gtk-Tools Copyright (c) 2017 JJ Posti <techtimejourney.net> 
 #Crosslinker is a python file manager.The program comes with ABSOLUTELY NO WARRANTY; 
