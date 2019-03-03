@@ -1,79 +1,61 @@
-# Sequence-FM
-This repository hosts Sequence FM (Python+QT5) file manager and its add-ons
+### Sequence FM 5.0 beta
 
-![screenshot](https://user-images.githubusercontent.com/29865797/28461483-7baa3056-6e1f-11e7-8063-b3dc414a31fb.jpg)
 
-#Sequence FM v.4 Copyright (c) 2017 JJ Posti <techtimejourney.net>
+License:
 
-#This program comes with ABSOLUTELY NO WARRANTY;
+Sequence FM Copyright (c) 2017 JJ Posti <techtimejourney.net>
 
-#for details see: http://www.gnu.org/copyleft/gpl.html.
+This program comes with ABSOLUTELY NO WARRANTY;
 
-#This is free software, and you are welcome to redistribute it under
+for details see: http://www.gnu.org/copyleft/gpl.html.
 
-#GPL Version 2, June 1991″)
-_________________________________________
+This is free software, and you are welcome to redistribute it under
 
-<b>Sequence FM v.4.1:</b>
+GPL Version 2, June 1991″)
+
+
+Sequence FM 5.0 beta arrives. This filemanager is made with Python3 and QT5. It intends to be a simple and lightweight.
+
+Currently functioning features include for example:
+
+- Terminal command support in addressbar: You can, for example, type firefox and it will start.
+
+- General addressbar funtionalities: Showing current location and navigating to current location via addressbar.
+
+- One file or folder copy,paste, move functionalities.
+
+- Open file with application functionality.
+
+- Make a new text file functionality.
+
+- Make a new folder functionality.
+
+- Object renaming is supported.
+
+- Open archive, compress an object or extract an archive is supported via file-roller integration.
+
+- Right-click menu: Almost all the above functionalities have been placed inside the right-click menu of Sequence FM.
+
+- Preliminary shortkey support: Delete button of a keyboard will launch object deleting functionalities. Escape button in keyboard will instantly quit the filemanager.
+
+- There is also a simple manual page added (for the man command).
+
+Error handling inside Sequence FM has been improved - to avoid accidental crashing-
+
+
+Notice that this filemanager is still in beta and does not currently support trashcan functionality. Trash support may be added in the future. 
+
 
 To use Sequence FM you should have, at least, these installed (Debian base as an example):
 
 sudo apt-get install python-pyqt5 python python3 file-roller
 
-Sequence FM features include, for example:
 
--Terminal command support. If you write: firefox, albix, vlc (or some other program name) to the address bar and press enter then the program will open up. You can also use other terminal commands like rm -r to remove files or folders. Be cautious with terminal commands and use them only if you know what you are doing.
+Default locations: You can place Sequence FM in any location. I recommend /usr/share/sfm.py
 
--Right-click menu.
-
--Menus, which have functionalities separated to their own sections clearly.
-
--Navigation bar (with terminal command support, as mentioned above).
-
--Open archive, compress object, extract object functionality(via file-roller integration).
-
--Open file with program functionality.
-
-Default location: You can place Sequence FM in any location. I recommend /usr/share/sfm.py
-_____________________________
-
-<b>Add-Ons:</b>
-
-
-#Gtk-Tools Copyright (c) 2017 JJ Posti <techtimejourney.net>
-
-#Crosslinker is a python file manager.The program comes with ABSOLUTELY NO WARRANTY;
-
-#for details see: http://www.gnu.org/copyleft/gpl.html.
-
-#This is free software, and you are welcome to redistribute it under
-
-#GPL Version 2, June 1991″)
-________________________________________
-
-
-Note. Gtk-Tools is a very minimized  version of  my older file manager Crosslinker FM - hence the Crosslinker line in the copyright above.
-
-Gtk-Tools hosts copy, paste, move and delete functionalities. You can launch Gtk-Tools from Sequence FM <b>Actions</b> menu. 
-
-Dependencies:python python3 python3-gi python-gi
-
-Gtk-Tools default location: Sequence FM tries to find Gtk-Tools from /usr/share/tools.py
-
-If you wish to change the default of Gtk-Tools then change the pathway within sfm.py around the line 123 to something else. Default of this line reads: subprocess.Popen(“/usr/share/tools.py”)
 
 Executing:
 
 If needed make python files executable: chmod +x filename.py
 
 Run with: python filename_location.py
-
-___________________________________
-
-<b>Considerations:</b>
-
-You can show hidden objects with Gtk-Tools and manipulate them from there. The most secure way to handle hidden files is to open them via text editor. In the case of folders I recommend using command line. In any case, be cautious when handling hidden files - since mismanagement might cause some stability issues to your operation system. More about terminal commands: http://www.techtimejourney.net/essential-terminal-tricks-you-should-know/ 
-
-_________________________________
-Original post is at:
-http://www.techtimejourney.net/sequence-fm-v-4-gtk-tools-v-1/
