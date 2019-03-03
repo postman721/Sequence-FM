@@ -43,7 +43,7 @@ Currently functioning features include for example:
 
 - There is also a simple manual page added (for the man command).
 
-Error handling inside Sequence FM has been improved - to avoid accidental crashing-
+Error handling inside Sequence FM has been improved - to avoid accidental crashing.
 
 
 Notice that this filemanager is still in beta and does not currently support trashcan functionality. Trash support may be added in the future. 
