@@ -1,7 +1,7 @@
 ### Sequence FM 5.0 beta
 
 
-License:
+### License:
 
 Sequence FM Copyright (c) 2017 JJ Posti <techtimejourney.net>
 
@@ -13,8 +13,11 @@ This is free software, and you are welcome to redistribute it under
 
 GPL Version 2, June 1991″)
 
+![screen](https://user-images.githubusercontent.com/29865797/53697710-09e2ec00-3dcc-11e9-8f9e-011f6e417323.jpg)
 
-Sequence FM 5.0 beta arrives. This filemanager is made with Python3 and QT5. It intends to be a simple and lightweight.
+
+
+This filemanager is made with Python3 and QT5. It intends to be a simple and lightweight.
 
 Currently functioning features include for example:
 
