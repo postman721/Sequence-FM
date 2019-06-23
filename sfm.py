@@ -1,4 +1,4 @@
-#Sequence FM v.5.0 Beta Copyright (c) 2017 JJ Posti <techtimejourney.net> 
+#Sequence FM v.5.0 Copyright (c) 2017 JJ Posti <techtimejourney.net> 
 #This program comes with ABSOLUTELY NO WARRANTY; 
 #for details see: http://www.gnu.org/copyleft/gpl.html. 
 #This is free software, and you are welcome to redistribute it under 
@@ -10,13 +10,13 @@ from PyQt5 import QtCore, QtGui, QtWidgets
 from PyQt5.QtCore import *
 from PyQt5.QtGui import *
 from PyQt5.QtWidgets import *
-import os, sys, subprocess, getpass,copy
+import os, sys, subprocess, getpass,copy, shutil
 from copy import deepcopy
 class Main(QMainWindow):
     def __init__(self, *args, **kwargs):
         super(Main, self).__init__(*args, **kwargs)
 #Title		
-        self.setWindowTitle("Sequence FM v.5.0 Beta")
+        self.setWindowTitle("Sequence FM v.5.0")
         self.resize(700, 500)
 
 #Layout & Address bar
@@ -25,13 +25,11 @@ class Main(QMainWindow):
         self.address.setText("/")
         self.address.setAlignment(Qt.AlignCenter)
         self.address.returnPressed.connect(self.navigate)
-        self.address.returnPressed.connect(self.terminals)
 
 #Toolbar        
         self.toolbar=QToolBar()
         self.toolbar.addWidget(self.address)
         self.addToolBar(self.toolbar)
-        self.toolbar.setLayout(self.vertical)        
 
 #Treeview setup        
         self.treeview = QTreeView(self)
@@ -46,11 +44,10 @@ class Main(QMainWindow):
         self.treeview.clicked.connect(self.on_treeview_clicked)
         path=self.treeview.setSelectionMode(QtWidgets.QAbstractItemView.ExtendedSelection)
 
-
 ################################
 #Layout
 ################################
-                    
+                  
         self.vertical.addWidget(self.treeview)    
         self.setCentralWidget(self.treeview)
 
@@ -90,14 +87,6 @@ class Main(QMainWindow):
         self.for1 = self.menu.addAction('Delete object')
         self.for1.triggered.connect(self.delete_object)
 
-######################################################## COPY
-
-        self.for2 = self.menu.addAction('Copy object')
-        self.for3 = self.menu.addAction('Paste object')
-
-        self.for2.triggered.connect(self.copy_object)
-        self.for3.triggered.connect(self.paste_object)
-
         self.openar = self.menu.addAction('Open archive')
         self.openar.triggered.connect(self.rolleropen)
 
@@ -106,7 +95,6 @@ class Main(QMainWindow):
         
         self.extract = self.menu.addAction('Extract object')
         self.extract.triggered.connect(self.filextract)
-#################################################################################ABOUT DIALOG
         self.about1 = self.menu.addAction('About')
         self.about1.triggered.connect(self.about)        
 
@@ -140,6 +128,7 @@ class Main(QMainWindow):
         try:
             filepath = self.treeview.model.filePath(indexItem)
             self.address.setText(filepath)
+            print (filepath)
         except Exception as e:
             print (e)			                 
 
@@ -163,7 +152,6 @@ class Main(QMainWindow):
 ################################
     def terminals(self):
         subprocess.Popen(self.path, shell=True, stdout=subprocess.PIPE)
-
 	 
 ################################
 #Rename in current path
@@ -205,40 +193,15 @@ class Main(QMainWindow):
         if buttonReply == QMessageBox.No:
             print filepath
             pass   			
-            
-##############################
-#Copy & Paste functions
-###############################           			                                                                                 			
-    def copy_object(self):
-        try:
-            global old_destination
-            old_destination=copy.deepcopy(filepath)
-            object_names.append(old_destination)
-            print(old_destination)
-        except Exception as e:
-            print(e)			    					
-
-#Paste object 
-    def paste_object(self):
-        buttonReply = QMessageBox.question(self, 'Paste the object to this location? It will override the existing object with the same name', ' \n Press No now if you are not sure. ')
-        if buttonReply == QMessageBox.Yes:
-            try:
-                print (old_destination)
-                print (filepath)
-                subprocess.Popen(["cp" , "-r", old_destination, filepath])                                                                        			
-            except Exception as e:
-                print (e)
-        if buttonReply == QMessageBox.No:
-            pass			
-#################################################################               
-            				
-#Keypress events        
+    
+###########################            				
+#Keypress events
+###########################        
     def keyPressEvent(self, event):
         if event.key()==Qt.Key_Delete:
-            self.delete_object()			                 			            
-        elif event.key()==Qt.Key_Escape:
-            app.quit()
-            print "Program ends."    
+            self.delete_object()
+        if event.key()==Qt.Key_Control:
+            self.terminals()               			                 			               
         else:
             pass 				
 
