@@ -1,8 +1,8 @@
 
-### Sequence FM 5.0 
+### Sequence FM 6.0 
 
-![screen](https://user-images.githubusercontent.com/29865797/53697710-09e2ec00-3dcc-11e9-8f9e-011f6e417323.jpg)
-
+![sequence6](https://user-images.githubusercontent.com/29865797/71634025-08b76100-2c21-11ea-8447-d081695deff8.jpg)
+![screen2](https://user-images.githubusercontent.com/29865797/71634028-0b19bb00-2c21-11ea-9d71-f64dc65f8342.jpg)
 License:
 
 Sequence FM Copyright (c) 2017 JJ Posti
