@@ -18,6 +18,27 @@ GPL Version 2, June 1991″)
 
 This filemanager is made with Python3 and QT5. It intends to be a simple and lightweight.
 
+## Sequence FM new features (since 6.0)
+
+New very important keys:
+
+	- Control (Ctrl), is now a key for selecting objects for copying/moving/deleting.
+	- ESC is now a buffer cleaner: Control adds files to buffer (to wait for actions); ESC clears this buffer.
+	 
+New integrated features:
+
+    - Delete key support
+    - Delete multiple objects
+    - Trash support added.(trash folder will be created inside user´s home directory)
+    - Move multiple objects.
+    - Copy multiple objects.
+    - Statusbar added. 
+    - Permanent delete support added.
+
+#### Notice that if you move, copy or trash a file that already has an identically named counterpart on the upcoming location, you will end up loosing the older object (present before your actions counterpart) from the upcoming location. 
+
+
+## Features from added on earlier releases
 ### Currently functioning features include:
 
     Terminal command support in addressbar: You can, for example, type firefox and it will start after you press Enter and then press Control from your keyboard to execute.
