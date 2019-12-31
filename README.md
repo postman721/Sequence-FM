@@ -35,11 +35,12 @@ New integrated features:
     - Statusbar added. 
     - Permanent delete support added.
 
+#### Notice that if you move, copy or trash a file that already has an identically named counterpart on the upcoming location, you will end up loosing the older object (present before your actions counterpart) from the upcoming location.
+
 Removed features:
 
 - Direct terminal command support: This came out looking like a potential security issue. It was removed from the Gui but remains as a possibility within the code.
-
-#### Notice that if you move, copy or trash a file that already has an identically named counterpart on the upcoming location, you will end up loosing the older object (present before your actions counterpart) from the upcoming location. 
+ 
 
 
 ## Features from earlier releases
