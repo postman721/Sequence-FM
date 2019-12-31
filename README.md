@@ -35,6 +35,10 @@ New integrated features:
     - Statusbar added. 
     - Permanent delete support added.
 
+Removed features:
+
+- Direct terminal command support: This came out looking like a potential security issue. It was removed from the Gui but remains as a possibility within the code.
+
 #### Notice that if you move, copy or trash a file that already has an identically named counterpart on the upcoming location, you will end up loosing the older object (present before your actions counterpart) from the upcoming location. 
 
 
@@ -78,7 +82,5 @@ Run with:
     python filename_location.py
 
 
-### About delete, copy and moving functionalities.
 
-I decided to keep this filemanager as unix like as possible. As I prefer terminal commands, I left out move,copy or removal commands. I believe those are best served via terminal client. See here for more: https://www.techtimejourney.net/essential-terminal-tricks-you-should-know/
 
