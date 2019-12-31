@@ -22,8 +22,8 @@ This filemanager is made with Python3 and QT5. It intends to be a simple and lig
 
 New very important keys:
 
-	- Control (Ctrl), is now a key for selecting objects for copying/moving/deleting.
-	- ESC is now a buffer cleaner: Control adds files to buffer (to wait for actions); ESC clears this buffer.
+- Control (Ctrl), is now a key for selecting objects for copying/moving/deleting.
+- ESC is now a buffer cleaner: Control adds files to the buffer (to wait for actions); ESC clears this buffer.
 	 
 New integrated features:
 
