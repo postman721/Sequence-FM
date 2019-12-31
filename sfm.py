@@ -1,4 +1,4 @@
-#Sequence FM v.5.0 Copyright (c) 2017 JJ Posti <techtimejourney.net> 
+#Sequence FM v.6.0 Copyright (c) 2017 JJ Posti <techtimejourney.net> 
 #This program comes with ABSOLUTELY NO WARRANTY; 
 #for details see: http://www.gnu.org/copyleft/gpl.html. 
 #This is free software, and you are welcome to redistribute it under 
@@ -16,7 +16,7 @@ class Main(QMainWindow):
     def __init__(self, *args, **kwargs):
         super(Main, self).__init__(*args, **kwargs)
 #Title		
-        self.setWindowTitle("Sequence FM v.5.0")
+        self.setWindowTitle("Sequence FM v.6.0")
         self.resize(700, 500)
 
 #Layout & Address bar
@@ -26,6 +26,12 @@ class Main(QMainWindow):
         self.address.setAlignment(Qt.AlignCenter)
         self.address.returnPressed.connect(self.navigate)
 
+#Statusbar
+        self.status=QStatusBar()
+        self.setStatusBar(self.status)
+        self.status.showMessage("Press Ctrl, to select objects for actions.")
+
+        
 #Toolbar        
         self.toolbar=QToolBar()
         self.toolbar.addWidget(self.address)
@@ -44,11 +50,14 @@ class Main(QMainWindow):
         self.treeview.clicked.connect(self.on_treeview_clicked)
         path=self.treeview.setSelectionMode(QtWidgets.QAbstractItemView.ExtendedSelection)
 
+#Multi-selection list
+        self.indexToRemove=[]
+
 ################################
 #Layout
-################################
-                  
-        self.vertical.addWidget(self.treeview)    
+################################          
+        self.vertical.addWidget(self.treeview)
+
         self.setCentralWidget(self.treeview)
 
 ################################
@@ -82,10 +91,20 @@ class Main(QMainWindow):
 
         self.rename1 = self.menu.addAction('Rename object')
         self.rename1.triggered.connect(self.rename)
+        
+        self.move1 = self.menu.addAction('Move objects')
+        self.move1.triggered.connect(self.move_object)
+        
+        self.copy1 = self.menu.addAction('Copy objects')
+        self.copy1.triggered.connect(self.copy_object)
 
         self.sep1 = self.menu.addSeparator()
-        self.for1 = self.menu.addAction('Delete object')
+        
+        self.for1 = self.menu.addAction('Delete objects')
         self.for1.triggered.connect(self.delete_object)
+        
+        self.for2 = self.menu.addAction('Permanently delete objects')
+        self.for2.triggered.connect(self.permanent_delete_object)
 
         self.openar = self.menu.addAction('Open archive')
         self.openar.triggered.connect(self.rolleropen)
@@ -95,12 +114,37 @@ class Main(QMainWindow):
         
         self.extract = self.menu.addAction('Extract object')
         self.extract.triggered.connect(self.filextract)
+
         self.about1 = self.menu.addAction('About')
         self.about1.triggered.connect(self.about)        
 
 #add other required actions
         self.menu.popup(QtGui.QCursor.pos())
 
+
+####################
+#Make trash folder
+####################
+    def maketrash(self):
+        name=getpass.getuser()
+        uhome="/home/"
+        trash="/trash"
+        combine1=uhome + name
+        os.chdir(combine1)
+        if os.path.exists("trash"):
+            pass
+        else:                
+            makefolder=os.makedirs('trash')   
+
+######################
+#Move to trash folder
+######################
+    def move_trash(self):
+        name=getpass.getuser()
+        uhome="/home/"
+        trash="/trash"
+        combine1=uhome + name
+        
 ################################
 #About messagebox
 ################################
@@ -179,20 +223,118 @@ class Main(QMainWindow):
             except Exception as e:
                 print (e)				
 
+
+################################
+#Move an object
+################################
+    def move_object(self):
+        if not self.indexToRemove:
+            print ("Nothing to move.")
+        else:    			
+            buttonReply = QMessageBox.question(self, 'Move objects to current folder?', ' \n Press No now if you are not sure. ')
+            if buttonReply == QMessageBox.Yes:
+                try:
+                    list_string=(self.indexToRemove)
+                    for lines in list_string:
+                        x=lines.encode('utf-8')
+                        y=x.decode('unicode-escape')
+                        print (y)
+                        subprocess.Popen(["mv" , y, filepath])                        
+                        print (self.indexToRemove)
+                        self.status.showMessage("Moving done. Clear buffer with ESC.")
+                except Exception as e:
+                    print (e)
+            if buttonReply == QMessageBox.No:
+                print filepath
+                del self.indexToRemove[:]
+                print (self.indexToRemove)
+                self.status.showMessage("Buffer is cleared.")   
+
+################################
+#Copy an object
+################################
+    def copy_object(self):
+        if not self.indexToRemove:
+            print ("Nothing to copy.")
+        else:    			
+            buttonReply = QMessageBox.question(self, 'Copy objects to current folder?', ' \n Press No now if you are not sure. ')
+            if buttonReply == QMessageBox.Yes:
+                try:
+                    list_string=(self.indexToRemove)
+                    for lines in list_string:
+                        x=lines.encode('utf-8')
+                        y=x.decode('unicode-escape')
+                        print (y)
+                        subprocess.Popen(["cp" , "-r" , y, filepath])
+                        print (self.indexToRemove)
+                        self.status.showMessage("Copying done. Clear buffer with ESC.")
+                except Exception as e:
+                    print (e)
+            if buttonReply == QMessageBox.No:
+                print filepath	
+                del self.indexToRemove[:]
+                print (self.indexToRemove)
+                self.status.showMessage("Buffer is cleared.")   
+
+
 ################################
 #Delete an object
 ################################
     def delete_object(self):
-        buttonReply = QMessageBox.question(self, 'Delete object permanently?', ' \n Press No now if you are not sure. ')
-        if buttonReply == QMessageBox.Yes:
-            try:
+        self.maketrash()	
+        if not self.indexToRemove:
+            print ("Nothing to remove.")
+        else:    			
+            buttonReply = QMessageBox.question(self, 'Move objects to trash?', ' \n Press No now if you are not sure. ')
+            if buttonReply == QMessageBox.Yes:
+                try:
+                    list_string=(self.indexToRemove)
+                    for lines in list_string:
+                        x=lines.encode('utf-8')
+                        y=x.decode('unicode-escape')
+                        print (y)
+                        name=getpass.getuser()
+                        uhome="/home/"
+                        trash="/trash"
+                        combine1=uhome + name + trash
+                        subprocess.Popen(["mv" , y , combine1])
+                        print (self.indexToRemove)
+                        self.status.showMessage("Objects trashed. Clear buffer with ESC.")                                                                         			
+                except Exception as e:
+                    print (e)
+            if buttonReply == QMessageBox.No:
                 print filepath
-                subprocess.Popen(["rm" , "-r", filepath])                                                                        			
-            except Exception as e:
-                print (e)
-        if buttonReply == QMessageBox.No:
-            print filepath
-            pass   			
+                del self.indexToRemove[:]
+                print (self.indexToRemove)
+                self.status.showMessage("Buffer is cleared.")
+                   			
+
+################################
+#Permanent delete an object
+################################
+    def permanent_delete_object(self):
+        self.maketrash()	
+        if not self.indexToRemove:
+            print ("Nothing to remove.")
+        else:    			
+            buttonReply = QMessageBox.question(self, 'Permanently delete  objects?', ' \n Press No now if you are not sure. ')
+            if buttonReply == QMessageBox.Yes:
+                try:
+                    list_string=(self.indexToRemove)
+                    for lines in list_string:
+                        x=lines.encode('utf-8')
+                        y=x.decode('unicode-escape')
+                        print (y)
+                        subprocess.Popen(["rm" , "-r" , y])
+                        self.status.showMessage("Objects permanently deleted. Clear buffer with ESC.")                                                                        			
+                except Exception as e:
+                    print (e)
+            if buttonReply == QMessageBox.No:
+                print filepath
+                del self.indexToRemove[:]
+                print (self.indexToRemove)
+                self.status.showMessage("Buffer is cleared.")
+
     
 ###########################            				
 #Keypress events
@@ -201,7 +343,18 @@ class Main(QMainWindow):
         if event.key()==Qt.Key_Delete:
             self.delete_object()
         if event.key()==Qt.Key_Control:
-            self.terminals()               			                 			               
+            self.indexToRemove.append(filepath)
+            list_string=(self.indexToRemove)
+            for lines in list_string:
+                x=lines.encode('utf-8')
+                y=x.decode('unicode-escape')
+                print (y)
+                self.status.showMessage("Added " + (y) + " to buffer.")
+        if event.key()==Qt.Key_Escape:
+            del self.indexToRemove[:]
+            print (self.indexToRemove)
+            self.status.showMessage("Buffer is cleared.")
+            print ("Buffer is empty.")                  			                 			               
         else:
             pass 				
 
