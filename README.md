@@ -41,7 +41,8 @@ Removed features:
 
 - Direct terminal command support: This came out looking like a potential security issue. It was removed from the Gui but remains as a possibility within the code.
  
-
+____________________________________________________________________________________________
+Version 6.0: release posting is also available at: https://www.techtimejourney.net/sequence-fm-version-6-0-released/
 
 ## Features from earlier releases
 ### Currently functioning features include:
