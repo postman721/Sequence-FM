@@ -38,7 +38,7 @@ New integrated features:
 #### Notice that if you move, copy or trash a file that already has an identically named counterpart on the upcoming location, you will end up loosing the older object (present before your actions counterpart) from the upcoming location. 
 
 
-## Features from added on earlier releases
+## Features from earlier releases
 ### Currently functioning features include:
 
     Terminal command support in addressbar: You can, for example, type firefox and it will start after you press Enter and then press Control from your keyboard to execute.
