@@ -149,7 +149,7 @@ class Main(QMainWindow):
 #About messagebox
 ################################
     def about(self):
-        buttonReply = QMessageBox.question(self, 'Sequence FM v.5.0 Copyright(c)2017 JJ Posti <techtimejourney.net>', "Sequence FM is is a python file manager, which ports the features of Crosslinker FM series to QT5 - and adds many things along way.The program comes with ABSOLUTELY NO WARRANTY  for details see: http://www.gnu.org/copyleft/gpl.html. This is free software, and you are welcome to redistribute it under GPL Version 2, June 1991.", QMessageBox.Ok )
+        buttonReply = QMessageBox.question(self, 'Sequence FM v.6.0 Copyright(c)2017 JJ Posti <techtimejourney.net>', "Sequence FM is is a python file manager, which ports the features of Crosslinker FM series to QT5 - and adds many things along way.The program comes with ABSOLUTELY NO WARRANTY  for details see: http://www.gnu.org/copyleft/gpl.html. This is free software, and you are welcome to redistribute it under GPL Version 2, June 1991.", QMessageBox.Ok )
         if buttonReply == QMessageBox.Ok:
             print('Ok clicked, messagebox closed.')
 
@@ -203,12 +203,12 @@ class Main(QMainWindow):
     def rename(self):
         text, ok = QInputDialog.getText(self, 'Rename an object', ' \n Remember to include the extension as well (file example:foo.txt - if in any doubt CANCEL NOW. ')
         if ok:
-            print text
-            print "Now:", filepath
+            print (text)
+            print ("Now:", filepath)
             renamepath=os.path.dirname(filepath)
-            print "Rename pathway:", renamepath
+            print ("Rename pathway:", renamepath)
             new_entry= renamepath + '/' + text
-            print "New object location after renaming is:", new_entry
+            print ("New object location after renaming is:", new_entry)
             subprocess.Popen(['mv', filepath , new_entry])             
 
 ################################
@@ -218,7 +218,7 @@ class Main(QMainWindow):
         text, ok = QInputDialog.getText(self, 'Open with a program', ' \n Type the name of the program, which you want to use. ')
         if ok:
             try:
-                print text
+                print (text)
                 subprocess.Popen([text , filepath])                                                                        
             except Exception as e:
                 print (e)				
@@ -245,7 +245,7 @@ class Main(QMainWindow):
                 except Exception as e:
                     print (e)
             if buttonReply == QMessageBox.No:
-                print filepath
+                print (filepath)
                 del self.indexToRemove[:]
                 print (self.indexToRemove)
                 self.status.showMessage("Buffer is cleared.")   
@@ -271,7 +271,7 @@ class Main(QMainWindow):
                 except Exception as e:
                     print (e)
             if buttonReply == QMessageBox.No:
-                print filepath	
+                print (filepath)	
                 del self.indexToRemove[:]
                 print (self.indexToRemove)
                 self.status.showMessage("Buffer is cleared.")   
@@ -303,7 +303,7 @@ class Main(QMainWindow):
                 except Exception as e:
                     print (e)
             if buttonReply == QMessageBox.No:
-                print filepath
+                print (filepath)
                 del self.indexToRemove[:]
                 print (self.indexToRemove)
                 self.status.showMessage("Buffer is cleared.")
@@ -330,7 +330,7 @@ class Main(QMainWindow):
                 except Exception as e:
                     print (e)
             if buttonReply == QMessageBox.No:
-                print filepath
+                print (filepath)
                 del self.indexToRemove[:]
                 print (self.indexToRemove)
                 self.status.showMessage("Buffer is cleared.")
@@ -365,19 +365,19 @@ class Main(QMainWindow):
 #File-roller integrations
     def filextract(self,widget):
         try:
-		    subprocess.Popen(['file-roller', filepath , '--extract']) 
+            subprocess.Popen(['file-roller', filepath , '--extract']) 
         except Exception as e:
             print (e)			
 		
     def filecompress(self,widget):
         try:
-		    subprocess.Popen(['file-roller', '-d', '--add', filepath]) 
+            subprocess.Popen(['file-roller', '-d', '--add', filepath]) 
         except Exception as e:
             print (e)
             					
     def rolleropen(self,widget):
         try:		
-		    subprocess.Popen(['file-roller', filepath]) 
+            subprocess.Popen(['file-roller', filepath]) 
         except Exception as e:
             print (e)
             
@@ -386,7 +386,7 @@ class Main(QMainWindow):
         try:
             os.chdir(filepath)
             makefolder=os.makedirs('Newfolder')
-            print os.getcwd()
+            print (os.getcwd())
             makefolder		           
         except Exception as e:
             print (e)
@@ -396,7 +396,7 @@ class Main(QMainWindow):
         try:
             os.chdir(filepath)
             newtext=os.mknod('Newtext.txt')
-            print os.getcwd()
+            print (os.getcwd())
             newtext
         except Exception as e:
             print (e)
