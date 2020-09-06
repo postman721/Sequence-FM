@@ -9,7 +9,7 @@ Version 6.5 changes:
 
 - New outlook.
 
-- File/object location appears on statusbar when object is clicked.
+- File/object location appears on the statusbar when the object is clicked.
 
 License:
 
