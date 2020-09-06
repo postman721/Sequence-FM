@@ -1,11 +1,5 @@
-#Sequence FM v.6.0 Copyright (c) 2017 JJ Posti <techtimejourney.net> 
-#This program comes with ABSOLUTELY NO WARRANTY; 
-#for details see: http://www.gnu.org/copyleft/gpl.html. 
-#This is free software, and you are welcome to redistribute it under 
-#GPL Version 2, June 1991")
-
+#Sequence FM v.6.5 Copyright (c) 2017 JJ Posti <techtimejourney.net> This program comes with ABSOLUTELY NO WARRANTY; for details see: http://www.gnu.org/copyleft/gpl.html.  This is free software, and you are welcome to redistribute it under GPL Version 2, June 1991")
 #!/usr/bin/env python3
-
 from PyQt5 import QtCore, QtGui, QtWidgets
 from PyQt5.QtCore import *
 from PyQt5.QtGui import *
@@ -16,27 +10,37 @@ class Main(QMainWindow):
     def __init__(self, *args, **kwargs):
         super(Main, self).__init__(*args, **kwargs)
 #Title		
-        self.setWindowTitle("Sequence FM v.6.0")
+        self.setWindowTitle("Sequence FM v.6.5")
         self.resize(700, 500)
-
 #Layout & Address bar
         self.vertical = QVBoxLayout()
         self.address=QLineEdit()
         self.address.setText("/")
         self.address.setAlignment(Qt.AlignCenter)
         self.address.returnPressed.connect(self.navigate)
-
 #Statusbar
         self.status=QStatusBar()
         self.setStatusBar(self.status)
         self.status.showMessage("Press Ctrl, to select objects for actions.")
-
+#Buttons
+        self.open_with_button = QPushButton('Open with', self)
+        self.open_with_button.setToolTip('Open with')
+        self.open_with_button.clicked.connect(self.open_with_clicked)
         
-#Toolbar        
-        self.toolbar=QToolBar()
-        self.toolbar.addWidget(self.address)
-        self.addToolBar(self.toolbar)
+        self.home_button = QPushButton('Home', self)
+        self.home_button.setToolTip('Home')
+        self.home_button.clicked.connect(self.home_clicked)
 
+        self.trash_button = QPushButton('Trash', self)
+        self.trash_button.setToolTip('Trash')
+        self.trash_button.clicked.connect(self.trash_clicked)        
+#Toolbars        
+        self.toolbar=QToolBar()
+        self.toolbar.addWidget(self.open_with_button)
+        self.toolbar.addWidget(self.address)
+        self.toolbar.addWidget(self.home_button)
+        self.toolbar.addWidget(self.trash_button)
+        self.addToolBar(self.toolbar)        
 #Treeview setup        
         self.treeview = QTreeView(self)
         self.treeview.model = QFileSystemModel()
@@ -49,34 +53,68 @@ class Main(QMainWindow):
         self.treeview.setColumnWidth(0, 200)     
         self.treeview.clicked.connect(self.on_treeview_clicked)
         path=self.treeview.setSelectionMode(QtWidgets.QAbstractItemView.ExtendedSelection)
-
 #Multi-selection list
         self.indexToRemove=[]
-
 ################################
 #Layout
 ################################          
         self.vertical.addWidget(self.treeview)
-
         self.setCentralWidget(self.treeview)
-
 ################################
 #Colors
 ################################
-
         self.setStyleSheet("color:#ffffff; background-color:#353535;}")
-        self.treeview.setStyleSheet("color:#ffffff; background-color:#28496b;font-size: 12px; padding-left: 8px; padding-right: 8px; padding-top: 8px; padding-bottom: 8px} }")
-
+        self.treeview.setStyleSheet("color:#ffffff; background-color:#353535;font-size: 12px; padding-left: 8px; padding-right: 8px; padding-top: 8px; padding-bottom: 8px} }")
         self.setLayout(self.vertical)
         self.show()
-
+################################
+#Button connectors
+################################
+    @pyqtSlot()
+    def home_clicked(self):
+        try:
+            self.treeview.model = QFileSystemModel()
+            self.name=getpass.getuser()
+            self.home="/home/"
+            self.combine=self.home + self.name
+            self.treeview.model.setRootPath(self.combine)
+            self.treeview.setModel(self.treeview.model)
+            self.treeview.setRootIndex(self.treeview.model.index(self.combine))
+            self.treeview.setColumnWidth(0, 200)
+            self.address.setText("/home/" + self.name)
+            self.status.showMessage("/home/" + self.name)  
+            return self.combine
+        except Exception as e:
+            print (e)			
+    @pyqtSlot()
+    def trash_clicked(self):
+        try:
+            self.maketrash()
+            self.treeview.model = QFileSystemModel()
+            self.name=getpass.getuser()
+            self.home="/home/"
+            self.trash="/trash"
+            self.combine=self.home + self.name + self.trash
+            self.treeview.model.setRootPath(self.combine)
+            self.treeview.setModel(self.treeview.model)
+            self.treeview.setRootIndex(self.treeview.model.index(self.combine))
+            self.treeview.setColumnWidth(0, 200)
+            self.address.setText("/home/" + self.name + self.trash)
+            self.status.showMessage("/home/" + self.name + self.trash)  
+            return self.combine
+        except Exception as e:
+            print (e)		            
+    @pyqtSlot()
+    def open_with_clicked(self):
+        try:
+            self.opens_me()
+        except Exception as e:
+            print (e)			            	
 ################################
 #Right-Click menu
 ################################
-
     def contextMenuEvent(self, event):
         self.menu = QMenu(self)
-        
         self.menu.setStyleSheet("QMenu{color:#ffffff; background-color:#2f2e2d; border: 2px solid #353535; border-radius: 3px;font-size: 12px;}"
         "QMenu:selected{background-color:#125c8c;}") 
         
@@ -117,11 +155,8 @@ class Main(QMainWindow):
 
         self.about1 = self.menu.addAction('About')
         self.about1.triggered.connect(self.about)        
-
 #add other required actions
         self.menu.popup(QtGui.QCursor.pos())
-
-
 ####################
 #Make trash folder
 ####################
@@ -135,7 +170,6 @@ class Main(QMainWindow):
             pass
         else:                
             makefolder=os.makedirs('trash')   
-
 ######################
 #Move to trash folder
 ######################
@@ -143,28 +177,22 @@ class Main(QMainWindow):
         name=getpass.getuser()
         uhome="/home/"
         trash="/trash"
-        combine1=uhome + name
-        
+        combine1=uhome + name        
 ################################
 #About messagebox
 ################################
     def about(self):
-        buttonReply = QMessageBox.question(self, 'Sequence FM v.6.0 Copyright(c)2017 JJ Posti <techtimejourney.net>', "Sequence FM is is a python file manager, which ports the features of Crosslinker FM series to QT5 - and adds many things along way.The program comes with ABSOLUTELY NO WARRANTY  for details see: http://www.gnu.org/copyleft/gpl.html. This is free software, and you are welcome to redistribute it under GPL Version 2, June 1991.", QMessageBox.Ok )
+        buttonReply = QMessageBox.question(self, 'Sequence FM v.6.5 Copyright(c)2017 JJ Posti <techtimejourney.net>', "Sequence FM is is a python file manager, which ports the features of Crosslinker FM series to QT5 - and adds many things along way.The program comes with ABSOLUTELY NO WARRANTY  for details see: http://www.gnu.org/copyleft/gpl.html. This is free software, and you are welcome to redistribute it under GPL Version 2, June 1991.", QMessageBox.Ok )
         if buttonReply == QMessageBox.Ok:
-            print('Ok clicked, messagebox closed.')
-
-           
+            print('Ok clicked, messagebox closed.')           
 ################################
 #Double left-click function
 ################################        
     @QtCore.pyqtSlot(QtCore.QModelIndex)
     def on_treeview_clicked(self, index):
         indexItem = self.treeview.model.index(index.row(), 0, index.parent())
-
 # path or filename selected
         filename = self.treeview.model.fileName(indexItem)
-
-
 ################################
 #Full path/filename selected
 ################################        
@@ -173,9 +201,9 @@ class Main(QMainWindow):
             filepath = self.treeview.model.filePath(indexItem)
             self.address.setText(filepath)
             print (filepath)
+            self.status.showMessage(filepath)  
         except Exception as e:
             print (e)			                 
-
 ################################
 #Navigation
 ################################
@@ -190,13 +218,11 @@ class Main(QMainWindow):
             return self.path
         except Exception as e:
             print (e)			
-
 ################################
 #Terminal command support
 ################################
     def terminals(self):
-        subprocess.Popen(self.path, shell=True, stdout=subprocess.PIPE)
-	 
+        subprocess.Popen(self.path, shell=True, stdout=subprocess.PIPE)	 
 ################################
 #Rename in current path
 ################################
@@ -210,7 +236,6 @@ class Main(QMainWindow):
             new_entry= renamepath + '/' + text
             print ("New object location after renaming is:", new_entry)
             subprocess.Popen(['mv', filepath , new_entry])             
-
 ################################
 #Open With program
 ################################
@@ -222,8 +247,6 @@ class Main(QMainWindow):
                 subprocess.Popen([text , filepath])                                                                        
             except Exception as e:
                 print (e)				
-
-
 ################################
 #Move an object
 ################################
@@ -249,7 +272,6 @@ class Main(QMainWindow):
                 del self.indexToRemove[:]
                 print (self.indexToRemove)
                 self.status.showMessage("Buffer is cleared.")   
-
 ################################
 #Copy an object
 ################################
@@ -275,8 +297,6 @@ class Main(QMainWindow):
                 del self.indexToRemove[:]
                 print (self.indexToRemove)
                 self.status.showMessage("Buffer is cleared.")   
-
-
 ################################
 #Delete an object
 ################################
@@ -307,8 +327,6 @@ class Main(QMainWindow):
                 del self.indexToRemove[:]
                 print (self.indexToRemove)
                 self.status.showMessage("Buffer is cleared.")
-                   			
-
 ################################
 #Permanent delete an object
 ################################
@@ -333,9 +351,7 @@ class Main(QMainWindow):
                 print (filepath)
                 del self.indexToRemove[:]
                 print (self.indexToRemove)
-                self.status.showMessage("Buffer is cleared.")
-
-    
+                self.status.showMessage("Buffer is cleared.")    
 ###########################            				
 #Keypress events
 ###########################        
@@ -357,30 +373,25 @@ class Main(QMainWindow):
             print ("Buffer is empty.")                  			                 			               
         else:
             pass 				
-
 ##############################
 #CREATE OBJECT FUNCTIONS
 #################################
-
 #File-roller integrations
     def filextract(self,widget):
         try:
             subprocess.Popen(['file-roller', filepath , '--extract']) 
         except Exception as e:
-            print (e)			
-		
+            print (e)					
     def filecompress(self,widget):
         try:
             subprocess.Popen(['file-roller', '-d', '--add', filepath]) 
         except Exception as e:
-            print (e)
-            					
+            print (e)            					
     def rolleropen(self,widget):
         try:		
             subprocess.Popen(['file-roller', filepath]) 
         except Exception as e:
-            print (e)
-            
+            print (e)            
 #Make new directory
     def newdir(self,widget):
         try:
@@ -389,8 +400,7 @@ class Main(QMainWindow):
             print (os.getcwd())
             makefolder		           
         except Exception as e:
-            print (e)
-                    			
+            print (e)                    			
 #Make new empty text file
     def newfile(self,widget):
         try:
@@ -399,8 +409,7 @@ class Main(QMainWindow):
             print (os.getcwd())
             newtext
         except Exception as e:
-            print (e)
-            			        
+            print (e)            			        
 if __name__ == '__main__':
     app = QApplication(sys.argv)
     window = Main()
