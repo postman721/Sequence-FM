@@ -1,8 +1,16 @@
 
-### Sequence FM 6.0 
+### Sequence FM 6.5 
 
-![sequence6](https://user-images.githubusercontent.com/29865797/71634025-08b76100-2c21-11ea-8447-d081695deff8.jpg)
-![screen2](https://user-images.githubusercontent.com/29865797/71634028-0b19bb00-2c21-11ea-9d71-f64dc65f8342.jpg)
+![sfm65](https://user-images.githubusercontent.com/29865797/92326704-b276a980-f05c-11ea-84ad-bfe397449758.jpg)
+
+Version 6.5 changes:
+
+- Buttons to Gui
+
+- New outlook.
+
+- File/object location appears to statusbar when object is clicked.
+
 License:
 
 Sequence FM Copyright (c) 2017 JJ Posti
