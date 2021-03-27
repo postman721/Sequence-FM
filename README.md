@@ -5,6 +5,15 @@
 
 ![sfm-read](https://user-images.githubusercontent.com/29865797/112727309-a84dc700-8f2a-11eb-8606-fc64ca696ca6.png)
 
+<b>7.0 fixes and new features:</b>
+- Fixing Layout issues.
+- Adding native imageviewer.
+- Adding native text reader.
+- Fixing functionality issues with CTRL key.
+- Changing underlying code structure to a bit easier form.
+
+
+# Older versions
 Version 6.5 changes:
 
 - Buttons to Gui
