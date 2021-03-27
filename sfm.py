@@ -1,4 +1,4 @@
-#Sequence FM v.6.5 Copyright (c) 2017 JJ Posti <techtimejourney.net> This program comes with ABSOLUTELY NO WARRANTY; for details see: http://www.gnu.org/copyleft/gpl.html.  This is free software, and you are welcome to redistribute it under GPL Version 2, June 1991")
+#Sequence FM v.7.0 RC1 Copyright (c) 2017 JJ Posti <techtimejourney.net> This program comes with ABSOLUTELY NO WARRANTY; for details see: http://www.gnu.org/copyleft/gpl.html.  This is free software, and you are welcome to redistribute it under GPL Version 2, June 1991")
 #!/usr/bin/env python3
 from PyQt5 import QtCore, QtGui, QtWidgets
 from PyQt5.QtCore import *
@@ -6,22 +6,30 @@ from PyQt5.QtGui import *
 from PyQt5.QtWidgets import *
 import os, sys, subprocess, getpass,copy, shutil
 from copy import deepcopy
+
 class Main(QMainWindow):
     def __init__(self, *args, **kwargs):
         super(Main, self).__init__(*args, **kwargs)
-#Title		
-        self.setWindowTitle("Sequence FM v.6.5")
-        self.resize(700, 500)
-#Layout & Address bar
-        self.vertical = QVBoxLayout()
+        
+#Window Definitions		
+        self.title= ("Sequence FM v.7.0 RC1")
+        self.initUI()
+
+    def initUI(self):
+        self.setWindowTitle(self.title)
+        self.move(QApplication.desktop().screen().rect().center()- self.rect().center())
+        self.resize(800,600)
+        
+#Address bar
         self.address=QLineEdit()
         self.address.setText("/")
         self.address.setAlignment(Qt.AlignCenter)
         self.address.returnPressed.connect(self.navigate)
+        
 #Statusbar
         self.status=QStatusBar()
-        self.setStatusBar(self.status)
         self.status.showMessage("Press Ctrl, to select objects for actions.")
+
 #Buttons
         self.open_with_button = QPushButton('Open with', self)
         self.open_with_button.setToolTip('Open with')
@@ -31,18 +39,31 @@ class Main(QMainWindow):
         self.home_button.setToolTip('Home')
         self.home_button.clicked.connect(self.home_clicked)
 
+        self.read_button = QPushButton('Read a text file', self)
+        self.read_button.setToolTip('Read a text file')
+        self.read_button.clicked.connect(self.readme)
+
+        self.image_button = QPushButton('Open an image', self)
+        self.image_button.setCheckable(True)
+        self.image_button.setToolTip('Open an image')
+        self.image_button.clicked.connect(self.images)
+
         self.trash_button = QPushButton('Trash', self)
         self.trash_button.setToolTip('Trash')
-        self.trash_button.clicked.connect(self.trash_clicked)        
+        self.trash_button.clicked.connect(self.trash_clicked)   
+             
 #Toolbars        
         self.toolbar=QToolBar()
         self.toolbar.addWidget(self.open_with_button)
         self.toolbar.addWidget(self.address)
         self.toolbar.addWidget(self.home_button)
+        self.toolbar.addWidget(self.read_button)
+        self.toolbar.addWidget(self.image_button)
         self.toolbar.addWidget(self.trash_button)
-        self.addToolBar(self.toolbar)        
+                
 #Treeview setup        
         self.treeview = QTreeView(self)
+        self.treeview.setSortingEnabled(True) 
         self.treeview.model = QFileSystemModel()
         self.path=self.address.text()
         self.path="/"
@@ -52,22 +73,38 @@ class Main(QMainWindow):
         self.treeview.setRootIndex(self.treeview.model.index(self.path))
         self.treeview.setColumnWidth(0, 200)     
         self.treeview.clicked.connect(self.on_treeview_clicked)
-        path=self.treeview.setSelectionMode(QtWidgets.QAbstractItemView.ExtendedSelection)
+
+        self.treeview.setTreePosition(0)
+        self.treeview.setUniformRowHeights(True)
+
 #Multi-selection list
         self.indexToRemove=[]
+                
+#Read files
+        self.read = QTextEdit()
+        self.read.setStyleSheet("color:#ffffff; background-color:#353535;")
+        self.read.resize(640, 480)
+        self.read.setReadOnly(True)
+                
+#Open images
+        self.image = QLabel(self)
+        self.image_button.clicked.connect(self.images)                              
 ################################
-#Layout
+#Layouts
 ################################          
+        self.setCentralWidget(QWidget(self))
+        self.vertical = QVBoxLayout()
+        self.vertical.addWidget(self.toolbar)
         self.vertical.addWidget(self.treeview)
-        self.setCentralWidget(self.treeview)
+        self.vertical.addWidget(self.image)
+        self.vertical.addWidget(self.status)
+        self.centralWidget().setLayout(self.vertical)   
 ################################
 #Colors
 ################################
-        self.setStyleSheet("color:#ffffff; background-color:#353535;}")
-        self.treeview.setStyleSheet("color:#ffffff; background-color:#353535;font-size: 12px; padding-left: 8px; padding-right: 8px; padding-top: 8px; padding-bottom: 8px} }")
-        self.setLayout(self.vertical)
-        self.show()
-################################
+        self.setStyleSheet("color:#ffffff; background-color:#353535;")
+        self.treeview.setStyleSheet("color:#ffffff; background-color:#353535;font-size: 12px; padding-left: 8px; padding-right: 8px; padding-top: 8px; padding-bottom: 8px")
+#################################
 #Button connectors
 ################################
     @pyqtSlot()
@@ -169,7 +206,39 @@ class Main(QMainWindow):
         if os.path.exists("trash"):
             pass
         else:                
-            makefolder=os.makedirs('trash')   
+            makefolder=os.makedirs('trash')            
+##################
+#Read text files            
+##################
+    def readme(self):
+        try:
+            self.read.setHidden(not self.read.isHidden())
+            read=open(filepath).read()            
+        except Exception as e:
+            print ("Nothing to read.")
+            self.read.hide()
+        else:
+            self.read.setPlainText(read)
+            self.read.setPlainText(read)
+            self.status.showMessage("Press Read button again to hide the reader.")            
+############
+#Open images
+#############
+    def images(self):
+        if self.image_button.isChecked():
+            try:
+                self.treeview.hide()
+                self.image.setPixmap(QPixmap(filepath))
+                self.image.show()
+                self.status.showMessage("Press Image button again to hide.")            
+            except Exception as e:
+                print("No image selected")
+                self.treeview.show()
+                self.image_button.setChecked(False)
+        else:
+            self.image.hide()
+            self.treeview.show()         			    
+################################               
 ######################
 #Move to trash folder
 ######################
@@ -182,7 +251,7 @@ class Main(QMainWindow):
 #About messagebox
 ################################
     def about(self):
-        buttonReply = QMessageBox.question(self, 'Sequence FM v.6.5 Copyright(c)2017 JJ Posti <techtimejourney.net>', "Sequence FM is is a python file manager, which ports the features of Crosslinker FM series to QT5 - and adds many things along way.The program comes with ABSOLUTELY NO WARRANTY  for details see: http://www.gnu.org/copyleft/gpl.html. This is free software, and you are welcome to redistribute it under GPL Version 2, June 1991.", QMessageBox.Ok )
+        buttonReply = QMessageBox.question(self, 'Sequence FM v.7.0 Copyright(c)2017 JJ Posti <techtimejourney.net>', "Sequence FM is is a python file manager, which ports the features of Crosslinker FM series to QT5 - and adds many things along way.The program comes with ABSOLUTELY NO WARRANTY  for details see: http://www.gnu.org/copyleft/gpl.html. This is free software, and you are welcome to redistribute it under GPL Version 2, June 1991.", QMessageBox.Ok )
         if buttonReply == QMessageBox.Ok:
             print('Ok clicked, messagebox closed.')           
 ################################
@@ -356,23 +425,27 @@ class Main(QMainWindow):
 #Keypress events
 ###########################        
     def keyPressEvent(self, event):
-        if event.key()==Qt.Key_Delete:
-            self.delete_object()
-        if event.key()==Qt.Key_Control:
-            self.indexToRemove.append(filepath)
-            list_string=(self.indexToRemove)
-            for lines in list_string:
-                x=lines.encode('utf-8')
-                y=x.decode('unicode-escape')
-                print (y)
-                self.status.showMessage("Added " + (y) + " to buffer.")
-        if event.key()==Qt.Key_Escape:
-            del self.indexToRemove[:]
-            print (self.indexToRemove)
-            self.status.showMessage("Buffer is cleared.")
-            print ("Buffer is empty.")                  			                 			               
-        else:
-            pass 				
+        try:
+            if event.key()==Qt.Key_Delete:
+                self.delete_object()
+            if event.key()==Qt.Key_Control:
+                self.indexToRemove.append(filepath)
+                list_string=(self.indexToRemove)
+                for lines in list_string:
+                    x=lines.encode('utf-8')
+                    y=x.decode('unicode-escape')
+                    print (y)
+                    self.status.showMessage("Added " + (y) + " to buffer.")
+            if event.key()==Qt.Key_Escape:
+                del self.indexToRemove[:]
+                print (self.indexToRemove)
+                print ("Buffer is empty.")
+                self.status.showMessage("Press Ctrl, to select objects for actions.")                  			                 			               
+            else:
+                pass
+        except Exception as e:
+            print ("Nothing is selected.")
+            self.status.showMessage("Select an object then press Ctrl. Clear buffer with ESC.")                 				
 ##############################
 #CREATE OBJECT FUNCTIONS
 #################################
