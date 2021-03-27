@@ -1,7 +1,9 @@
 
-### Sequence FM 6.5 
+### Sequence FM 7.0 RC1
 
-![sfm65](https://user-images.githubusercontent.com/29865797/92326704-b276a980-f05c-11ea-84ad-bfe397449758.jpg)
+
+
+![sfm-read](https://user-images.githubusercontent.com/29865797/112727309-a84dc700-8f2a-11eb-8606-fc64ca696ca6.png)
 
 Version 6.5 changes:
 
