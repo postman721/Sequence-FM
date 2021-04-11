@@ -17,7 +17,7 @@ Notice that screenshots are from dev: Real functionality matches that of default
 
 - CSS theme support.
 - 4 themes added.
-- Dual panel mode is now default
+- Dual panel mode is now default.
 
 - Listview added as shorcut place.
 - QList defaulted -> Changed from Treeview.
