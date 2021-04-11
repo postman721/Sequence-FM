@@ -25,7 +25,7 @@ Notice that screenshots are from dev: Real functionality matches that of default
 
 - Multi-selection by holding CTRL and clicking objects is now possible.
 - File-roller integration removed as an effort to reduce external dependencies -> Open external program functionality added as a replacement.
-- Object buffer (CTRL) functions removed and replaced with dialogs.
+- Object buffer of previous releases removed and replaced with native Pyqt5 dialogs.
 
 
 <b>7.0 RC1 fixes and new features:</b>
