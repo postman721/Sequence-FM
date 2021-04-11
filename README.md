@@ -16,7 +16,7 @@ Notice that screenshots are from dev: Real functionality matches that of default
 <b>7.0 RC2 fixes and new features:</b>
 
 - CSS theme support.
-- 4 themes added.
+- 4 themes added -> set your theme with theme.py.
 - Dual panel mode is now default.
 
 - Listview added as shortcut place.
