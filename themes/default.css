@@ -1,0 +1,46 @@
+
+*{
+    background-color: #383838;
+    color: #ffffff;}
+
+
+QMenu
+{
+    color: #e3e0d8;
+    background-color: #292a2e;
+    selection-background-color:#080912;
+    selection-color: #ffffff;
+  
+}
+
+QWidget:item:hover
+{
+    background-color: #080912;
+    color: #ffffff;
+}
+
+QWidget:item:selected
+{
+    background-color: #080912;
+}
+
+QStatusBar {
+    height: 4px;
+    background-color: #383838;
+    color: #ffffff;
+} 
+
+QMainWindow {
+    background-color: #383838	;
+    color: #ffffff;
+} 
+QPushButton {
+    background-color: #01081f	;
+    color: #ffffff;
+} 
+
+QPushButton:hover:!pressed{
+  border: 1px solid red;
+}
+
+
