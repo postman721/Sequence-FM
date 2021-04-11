@@ -1,11 +1,34 @@
 
-### Sequence FM 7.0 RC1
+### Sequence FM 7.0 RC2
+
+<b>Default outlook (Since 7.0 RC2)</b>
+
+![default](https://user-images.githubusercontent.com/29865797/114307574-f77a2700-9ae8-11eb-815a-e863e3972372.png)
 
 
+<b>Alternative themes (Since 7.0 RC2)</b> 
 
-![sfm-read](https://user-images.githubusercontent.com/29865797/112727309-a84dc700-8f2a-11eb-8606-fc64ca696ca6.png)
+Notice that screenshots are from dev: Real functionality matches that of default as seen above. 
 
-<b>7.0 fixes and new features:</b>
+![alternatives-dev](https://user-images.githubusercontent.com/29865797/114307577-fba64480-9ae8-11eb-9483-a6799024ddb4.png)
+
+
+<b>7.0 RC2 fixes and new features:</b>
+
+- CSS theme support.
+- 4 themes added.
+- Dual panel mode is now default
+
+- Listview added as shorcut place.
+- QList defaulted -> Changed from Treeview.
+- File/object descriptors added.
+
+- Multi-selection by holding CTRL and clicking objects is now possible.
+- File-roller integration removed as an effort to reduce external dependencies -> Open external program functionality added as a replacement.
+- Object buffer (CTRL) functions removed and replaced with dialogs.
+
+
+<b>7.0 RC1 fixes and new features:</b>
 - Fixing Layout issues.
 - Adding native imageviewer.
 - Adding native text reader.
