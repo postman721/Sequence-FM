@@ -20,7 +20,6 @@ Notice that screenshots are from dev: Real functionality matches that of default
 - Dual panel mode is now default.
 
 - Listview added as shortcut place.
-- QList defaulted -> Changed from Treeview.
 - File/object descriptors added.
 
 - Multi-selection by holding CTRL and clicking objects is now possible.
