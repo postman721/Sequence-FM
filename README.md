@@ -19,7 +19,7 @@ Notice that screenshots are from dev: Real functionality matches that of default
 - 4 themes added.
 - Dual panel mode is now default.
 
-- Listview added as shorcut place.
+- Listview added as shortcut place.
 - QList defaulted -> Changed from Treeview.
 - File/object descriptors added.
 
