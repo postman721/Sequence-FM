@@ -21,7 +21,7 @@ Notice that screenshots are from dev: Real functionality matches that of default
 
 - Verification dialogs to "Copy to..." and "Move to..." : No final action should be performed without user's acceptance.
 
-<b>Notice. If user clicks cancel from any of the above dialogs then "Select for copying or moving" actions needs to be redone.</b>
+<b>Notice. If user clicks finalizes or cancel from any of the above dialogs then "Select for copying or moving" actions needs to be redone.</b>
 
 
 <b>7.0 RC2 fixes and new features:</b>
