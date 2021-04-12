@@ -1,4 +1,4 @@
-#Sequence FM v.7.0 RC2. Copyright (c) 2017 JJ Posti <techtimejourney.net> This program comes with ABSOLUTELY NO WARRANTY; for details see: http://www.gnu.org/copyleft/gpl.html.  This is free software, and you are welcome to redistribute it under GPL Version 2, June 1991")
+#Sequence FM v.7.0 RC3. Copyright (c) 2017 JJ Posti <techtimejourney.net> This program comes with ABSOLUTELY NO WARRANTY; for details see: http://www.gnu.org/copyleft/gpl.html.  This is free software, and you are welcome to redistribute it under GPL Version 2, June 1991")
 #!/usr/bin/env python3
 from PyQt5 import QtCore, QtGui, QtWidgets
 from PyQt5.QtCore import *
@@ -12,7 +12,7 @@ class Main(QMainWindow):
     def __init__(self, *args, **kwargs):
         super(Main, self).__init__(*args, **kwargs)        
 #Window Definitions		
-        self.title= ("Sequence FM v.7.0 RC2")
+        self.title= ("Sequence FM v.7.0 RC3")
         self.initUI()
     def initUI(self):
         self.setWindowTitle(self.title)
@@ -100,9 +100,7 @@ class Main(QMainWindow):
         self.treeview2.model.setFilter(QDir.NoDotAndDotDot | QDir.Dirs | QDir.NoDot | QDir.NoDotDot | QDir.Files)
         
 #Size attributes
-        self.treeview2.setFixedSize(440, 600)
-        
-                                     
+        self.treeview2.setFixedSize(440, 600)                                     
 #Finalizations
         self.path=self.address.text()
         self.name=getpass.getuser()
@@ -116,8 +114,6 @@ class Main(QMainWindow):
         self.treeview2.hideColumn(1)
         self.treeview2.hideColumn(2)
         self.treeview2.hideColumn(3)
-
-
 #Read files
         self.read = QTextEdit()
         self.read.resize(640, 480)
@@ -125,7 +121,10 @@ class Main(QMainWindow):
                 
 #Open images
         self.image = QLabel(self)
-        self.image_button.clicked.connect(self.images)                              
+        self.image_button.clicked.connect(self.images)
+        
+#Action list
+        self.actions=[]                                      
 ################################
 #Layouts
 ################################          
@@ -225,9 +224,13 @@ class Main(QMainWindow):
 
         self.rename1 = self.menu.addAction('Rename object')
         self.rename1.triggered.connect(self.rename_object)
+        self.sep1 = self.menu.addSeparator()
+
+        self.action1 = self.menu.addAction('Select for copying or moving')
+        self.action1.triggered.connect(self.actionlist)
                         
         self.paste = self.menu.addAction('Copy to...')
-        self.paste.triggered.connect(self.paste_copy)
+        self.paste.triggered.connect(self.pasteto)
         self.sep1 = self.menu.addSeparator()
 
         self.sep2q = self.menu.addSeparator()
@@ -393,40 +396,69 @@ class Main(QMainWindow):
 #Move an object 
 ################################            
     def move_final(self):
+        if not self.actions:
+            print ("Nothing to do.")
+        else:        		
+            try:            			
+                self.listme=(self.actions)                
+                buttonReply = QMessageBox.question(None, 'Proceed?', "Object with same name will be overwritten. If unsure press Cancel now.", QMessageBox.Cancel | QMessageBox.Ok  )
+                if buttonReply == QMessageBox.Ok:
+                    print('Ok clicked, messagebox closed.')
+                    for lines in self.listme:
+                        x=lines.encode('utf-8')
+                        y=x.decode('unicode-escape')
+                        print (y)
+                        subprocess.Popen(["mv" , y, self.address.text()])
+                        self.status.showMessage(str( " Moved to: " + self.address.text()))
+                if buttonReply == QMessageBox.Cancel:
+                    print ("Do not proceed. --> Going back to the program.")
+                    del self.actions[:]                            
+            except Exception as e:
+                print ( self.status.showMessage("Moving failed."))       
+
+##################
+#Append to actions
+###################
+    def actionlist(self):
+        if len(self.actions) != 0:
+            print ("Clearing old.")
+            del self.actions[:]    		
         try:
-            list_string=(self.treeview2.selectedIndexes())
-            text2, ok = QInputDialog.getText(self, 'Move to', ' \n Type the location. ')
-            if ok:
-                print (text2)                
-            for lines in list_string:
-                text = lines.data(Qt.DisplayRole)
+            text=(self.treeview2.selectedIndexes())
+            print(text)
+            for lines in text:
+                text2 = lines.data(Qt.DisplayRole)
                 dir_path = os.path.dirname(os.path.realpath(filepath2))
                 line='/' 
-                final=dir_path + line + text
-                if os.path.exists(text2):                    					
-                    subprocess.Popen(["mv", final, text2])
-                    self.status.showMessage(str( " Moved to: " + text2 ))                   			    		                                                                                               			                 			                        			             			    			    		
+                final=dir_path + line + text2
+                print(final)
+                self.actions.append(final)
+                self.status.showMessage(str( "Added for actions. Select your destination. "))
         except Exception as e:
-            print ( self.status.showMessage("Moving failed."))      
+            print ( self.status.showMessage(" Operation failed."))
 ################################
-#Copy objects
+#Paste objects
 ################################            
-    def paste_copy(self):
-        try:
-            list_string=(self.treeview2.selectedIndexes())
-            text2, ok = QInputDialog.getText(self, 'Copy to', ' \n Type the location. ')
-            if ok:
-                print (text2)
-                
-            for lines in list_string:
-                text = lines.data(Qt.DisplayRole)
-                dir_path = os.path.dirname(os.path.realpath(filepath2))
-                line='/' 
-                final=dir_path + line + text
-                subprocess.Popen(["cp", "-r" , final, text2])
-                self.status.showMessage(str( " Copied to: " + text2 ))                   			    		                                                                                               			                 			                        			             			    			    		
-        except Exception as e:
-            print ( self.status.showMessage("Copying failed."))          	                        
+    def pasteto(self):
+        if not self.actions:
+            print ("Nothing to do.")
+        else:        		
+            try:            			
+                self.listme=(self.actions)                
+                buttonReply = QMessageBox.question(None, 'Proceed?', "Object with same name will be overwritten. If unsure press Cancel now.", QMessageBox.Cancel | QMessageBox.Ok  )
+                if buttonReply == QMessageBox.Ok:
+                    print('Ok clicked, messagebox closed.')
+                    for lines in self.listme:
+                        x=lines.encode('utf-8')
+                        y=x.decode('unicode-escape')
+                        print (y)
+                        subprocess.Popen(["cp", "-r" , y, self.address.text()])
+                        self.status.showMessage(str( " Copied to: " + self.address.text()))
+                if buttonReply == QMessageBox.Cancel:
+                    print ("Do not proceed. --> Going back to the program.")
+                    del self.actions[:]                            
+            except Exception as e:
+                print ( self.status.showMessage("Copying failed."))        	                        
 ###################
 #Delete objects 
 ####################            
