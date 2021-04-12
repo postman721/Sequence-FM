@@ -1,6 +1,9 @@
 
 ### Sequence FM 7.0 RC2
 
+#### Sequence FM. Copyright (c) 2017 JJ Posti <techtimejourney.net> This program comes with ABSOLUTELY NO WARRANTY; for details see: http://www.gnu.org/copyleft/gpl.html.  This is free software, and you are welcome to redistribute it under GPL Version 2, June 1991")
+
+
 <b>Default outlook (Since 7.0 RC2)</b>
 
 ![default](https://user-images.githubusercontent.com/29865797/114307574-f77a2700-9ae8-11eb-815a-e863e3972372.png)
@@ -11,6 +14,14 @@
 Notice that screenshots are from dev: Real functionality matches that of default as seen above. 
 
 ![alternatives-dev](https://user-images.githubusercontent.com/29865797/114307577-fba64480-9ae8-11eb-9483-a6799024ddb4.png)
+
+<b> 7.0 RC3 fixes and new features
+
+- Copy and move made from right-click menu: Select entry or select entries by holding CTRL and clicking. Now, choose: "Select for copying or moving" from the right-click menu. Next, go to your location of choice and press either: "Copy to..." or "Move to..."
+
+- Verification dialogs to "Copy to..." and "Move to..." : No final action should be performed without user's acceptance.
+
+<b>Notice. If user clicks cancel from any of the above dialogs then "Select for copying or moving" actions needs to be redone.</b>
 
 
 <b>7.0 RC2 fixes and new features:</b>
